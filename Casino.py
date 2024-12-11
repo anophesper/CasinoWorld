@@ -19,10 +19,10 @@ class Casino:
         return 0  # якщо жодна комбінація не зіграла
 
     # метод для гри в казино
-    def play(self, bet: float):
+    def play(self, bet: float) -> float:
         bet = round(bet, 2) # округлюємо ставку до двох знаків після коми
         if bet <= 0:# додаткова перевірка, ставка має бути більшою за нуль
-            return False
+            raise ValueError("Ставка має бути більшою за нуль")
 
         dice_roll = [random.randint(1, 6), random.randint(1, 6)] # кидаємо кубики
         odds_value = self.get_odds(dice_roll)# перевіряємо комбінації

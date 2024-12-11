@@ -4,7 +4,7 @@ from Report import Report
 
 class Person:
     def __init__(self, name):
-        self.name = name  # перший аргумент - це ім'я
+        self.name = name
         self.__cash = random.randint(1000, 10000)
         self._cash_threshold = 500.00
         self.__account = None
@@ -13,7 +13,7 @@ class Person:
         self.monthly_report = []  # змінна для запису дій персонажа за кожен місяць
 
     # метод для визначення суми грошей для казино на місяць, базуючись на рівні ризику
-    def calculate_casino_budget(self):
+    def calculate_casino_budget(self) -> int:
         # рандомно визначаємо суму грошей для казино на місяць відповідно до рівня ризику людини (чим він більший, тим більше грошей)
         risk_budget_map = {
             1: (1000, 2000),
@@ -53,7 +53,7 @@ class Person:
         return summary
 
     # метод для поповнення рахунку
-    def deposit(self, funds: float):
+    def deposit(self, funds: float) -> bool:
         funds = round(funds, 2) # округлюємо суму
         # перевірка чи вистачає готівки для поповнення картки
         if self.__cash >= funds:
@@ -64,7 +64,7 @@ class Person:
         return False
 
     # метод для зняття готівки з рахунку
-    def withdraw(self, funds: float):
+    def withdraw(self, funds: float) -> bool:
         funds = round(funds, 2) # округлюємо суму
         # якщо гроші успішно зняті з рахунку додаємо їх до готівки
         if self.__account.withdraw(funds):

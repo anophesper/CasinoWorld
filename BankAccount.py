@@ -1,7 +1,6 @@
 import random
 
 class BankAccount:
-    # ПОДУМАТИ НАД МОДИФІКАТОРАМИ ДОСТУПУ
     def __init__(self, name):
         self.name = name
         self.__card_number = self.generate_card_number()
@@ -29,7 +28,7 @@ class BankAccount:
         return " ".join("".join(str(random.randint(0, 9)) for _ in range(4)) for _ in range(4)) # рандомно формуємо чотири частини номера картки з чотирьох чисел
 
     # метод для поповнення балансу або кредитного рахунку
-    def deposit(self, funds: float):
+    def deposit(self, funds: float) -> bool:
         funds = round(funds, 2)
         if funds <= 0.00: # додаткова перевірка, сума для поповнення картки має бути більшою за нуль
             return False
@@ -47,7 +46,7 @@ class BankAccount:
             return True
 
     # метод для зняття грошів з рахунку ПОДУМАТИ
-    def withdraw(self, funds: float):
+    def withdraw(self, funds: float) -> bool:
         funds = round(funds, 2)
         if funds <= 0:# додаткова перевірка, сума для зняття з картки має бути більшою за нуль
             return False
@@ -71,7 +70,7 @@ class BankAccount:
             return True
 
     # метод для зміни кредитного ліміту
-    def change_limit(self, funds: float):
+    def change_limit(self, funds: float) -> bool:
         funds = round(funds, 2)
         if funds <= 100: # ми не можемо встановити кредитний ліміт менше ніж 100
             return False
