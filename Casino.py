@@ -1,32 +1,30 @@
 import random
+from typing import List
 
 class Casino:
-    @staticmethod
-    def play(bet: float):
-        # округлюємо ставку до двох знаків після коми
-        bet = round(bet, 2)
-        print(f"Ставка: {bet}")
-        # кидаємо кубики
-        cube1 = random.randint(1, 6)
-        cube2 = random.randint(1, 6)
+    def __init__(self):
+        # словник для комбінацій кубиків та коефіцієнтів виграшу
+        self.odds = {
+            6: {(5, 5)},  # Коефіцієнт 6 для дубля 5+5
+            3: {(4, 6), (5, 6)},  # Коефіцієнт 3 для кубиків з сумою 10,11
+            2: {(1, 1), (2, 2), (3, 3), (4, 4), (6, 6)}  # Коефіцієнт 2 для дубля
+        }
 
-        if cube1 == cube2: # якщо в нас дубль ставка подвоєна або помножена на шість якщо випало 5 і 5
-            if cube1 + cube2 == 10:
-                bet = round(bet * 6, 2)
-                text = "Великий виграш! Ваша ставка помножена на шість!"
-            else:
-                bet = round(bet * 2, 2)
-                text = "Ваша ставка подвоєна!"
-            text += f" Виграш: {bet}"
-        elif cube1 + cube2 in (10, 11): # якщо в нас сума кубиків 10 чи 11 ставка подвоюється
-            bet = round(bet * 3, 2)
-            text = f"Ваша ставка подвоєна! Виграш: {bet}"
-        elif cube1 + cube2 in (6, 7): # якщо в нас сума кубиків 6 чи 7 ставка зберігається
-            text = f"Ви зберегли свою ставку"
-            pass
-        else: # в інших випадках гравець програв ставку
-            bet = 0
-            text = f"Ви програли"
+    # метод для отримування коефіцієнта виграшу
+    def get_odds(self, dice_roll: List[int]) -> int:
+        dice_roll_sorted = tuple(sorted(dice_roll))  # сортуємо кубики, щоб уникнути порядку й перетворюємо на кортеж для порівняння
+        for coefficient, combinations in self.odds.items(): # перебираємо кожну комбінацію в odds
+            if dice_roll_sorted in combinations: # якщо отримана комбінація є в словнику отримуємо коефіцієнт виграшу
+                return coefficient
+        return 0  # якщо жодна комбінація не зіграла
 
-        print(f"Кубик 1: {cube1}, Кубик 2: {cube2}, {text}") # виводимо повідомлення в консоль які кубики випали та результат гри
-        return bet
+    # метод для гри в казино
+    def play(self, bet: float):
+        bet = round(bet, 2) # округлюємо ставку до двох знаків після коми
+        if bet <= 0:# додаткова перевірка, ставка має бути більшою за нуль
+            return False
+
+        dice_roll = [random.randint(1, 6), random.randint(1, 6)] # кидаємо кубики
+        odds_value = self.get_odds(dice_roll)# перевіряємо комбінації
+
+        return round(bet * odds_value, 2) # повертаємо ставку помножену на коефіцієнт

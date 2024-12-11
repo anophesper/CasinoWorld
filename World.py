@@ -11,27 +11,21 @@ class World:
         # створення людей та акаунтів для них
         for i in range(1, population + 1):
             person = Person(f"Person{i}")
-            print(f"Нова людина в місті. \n{person.__str__()}\n")
+            print(f"Нова людина в місті. \n{str(person)}\n")
             self.bank.create_account(person)
             self.people.append(person)
 
-    def live(self):
+    def live(self, month):
+        print("----------------------------------------------------------------------------------------")
         for person in self.people: # перебираємо по черзі кожну людину зі списку
-            if person.account.is_blocked: # якщо акаунт заблоковано нічого не робимо
+            if person.account.is_blocked: # якщо акаунт заблоковано переходимо до наступного
                 continue
-
-            print("----------------------------------------------------------------------------------------")
-            print(f"{person.name}")
+            person.add_monthly_report(month) # додаємо звіт за новий місяць
             person.interact_with_bank() # людина взаємодіє з банком на початку
-            #print(f"\n{person.account.__str__()}\n")
             person.interact_with_casino(self.casino) # людина грає в казино
-            print(f"{person.name} Готівка: {person.cash}")
             person.interact_with_bank() # людина знову взаємодіє з банком
-            # print(f"\n{person.account.__str__()}\n")
-            print("----------------------------------------------------------------------------------------")
-
-        print("----------------------------------------------------------------------------------------")
         self.bank.process_accounts() # банк перевіряє кожен акаунт наприкінці місяця
+        for person in self.people:
+            print(person.get_monthly_summary())
         print("----------------------------------------------------------------------------------------")
-
         # ДОДАТИ ЯКУСЬ ВЗАЄМОДІЮ ІЗ ЗМІНЕННЯМ КРЕДИТНОГО ЛІМІТУ
