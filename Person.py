@@ -3,15 +3,14 @@ from Casino import Casino
 from Report import Report
 
 class Person:
-    # ПОДУМАТИ НАД МОДИФІКАТОРАМИ ДОСТУПУ
     def __init__(self, name):
-        self.name = name
+        self.name = name  # перший аргумент - це ім'я
         self.__cash = random.randint(1000, 10000)
         self._cash_threshold = 500.00
         self.__account = None
         self._risk_level = random.randint(1, 5)
         self._monthly_casino_budget = self.calculate_casino_budget()
-        self.monthly_report = [] # змінна для запису дій персонажа за кожен місяць
+        self.monthly_report = []  # змінна для запису дій персонажа за кожен місяць
 
     # метод для визначення суми грошей для казино на місяць, базуючись на рівні ризику
     def calculate_casino_budget(self):
@@ -36,7 +35,7 @@ class Person:
                 f"Рівень ризику: {self._risk_level}\n"
                 f"Запланована витрата в казино на місяць: {self._monthly_casino_budget}")
 
-    # ПОДУМАТИ метод для формування звіту за місяць
+    # метод для формування звіту за місяць
     def get_monthly_summary(self):
         report = self.monthly_report[-1] # беремо останній звіт в списку
         account_info = ""
@@ -74,7 +73,6 @@ class Person:
         return False
 
     # метод для взаємодії з банком
-    # ПОДУМАТИ ЯКАСЬ ФІГНЯ ІЗ ЗАПИСОМ СКІЛЬКИ ПОКЛАЛИ СКІЛЬКИ ЗНЯЛИ ЗА МІСЯЦЬ
     def interact_with_bank(self):
         # якщо в нас готівки менше ніж нам потрібно на місяць для казино ми знімаємо кошти
         if self.__cash < self._monthly_casino_budget:
@@ -101,7 +99,7 @@ class Person:
             if self.deposit(funds):
                 self.monthly_report[-1].add_info_report("deposit", funds)# ЗАПИСУЄМО ЦЮ ДІЮ В РЕПОРТ ЗА МІСЯЦЬ
 
-    # метод для гри в казино ПОДУМАТИ
+    # метод для гри в казино
     def interact_with_casino(self, casino: Casino):
         # загальна ставка на цей місяць
         # якщо в нас готівки менше ніж заплановано в казино на місяць, то загальна ставка = наявна готівка, в інших випадках
@@ -111,8 +109,7 @@ class Person:
         else:
             max_bet = self._monthly_casino_budget
 
-        # ПОДУМАТИ НАД ЦИМ може на кількість ставок буде впливати рівень ризику людини
-        bet_fraction = random.randint(3, 30) # кількість ставок на місяць рандомно від трьох до тридцяти ПОДУМАТИ
+        bet_fraction = random.randint(3, 30) # кількість ставок на місяць рандомно від трьох до тридцяти
         bet = round(max_bet / bet_fraction, 2)
 
         total_bet = 0.0 # скільки грошей вже було поставлено
@@ -134,7 +131,7 @@ class Person:
             self._risk_level +=1
             self.monthly_report[-1].add_info_report("risk_level", 1)  # ЗАПИСУЄМО ЦЮ ДІЮ В РЕПОРТ ЗА МІСЯЦЬ
             self._monthly_casino_budget = self.calculate_casino_budget() # оновлюємо суму грошей які людина може витратити на казино
-        # якщо виграш нуль, рівень ризику знижується (якщо ще не є максимальним)
+        # якщо виграш нуль, рівень ризику знижується (якщо ще не є мінімальним)
         elif win == 0 and self._risk_level > 1:
             self._risk_level -= 1
             self.monthly_report[-1].add_info_report("risk_level", -1)  # ЗАПИСУЄМО ЦЮ ДІЮ В РЕПОРТ ЗА МІСЯЦЬ

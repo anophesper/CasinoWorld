@@ -17,8 +17,7 @@ class Report:
 
     # ЗАПИСУЄМО ДІЮ В РЕПОРТ ЗА МІСЯЦЬ
     def add_info_report(self, field_name, value):
-        # Перевіряємо, чи поле числове (окрім "month")
         if field_name != "month" and isinstance(value, (int, float)):
-            # Якщо це числове значення, додаємо до поточного значення
+            # додаємо до поточного значення
             current_value = getattr(self, field_name)
             setattr(self, field_name, current_value + value)

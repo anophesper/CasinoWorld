@@ -1,8 +1,8 @@
 from World import World
 
-population  = 10
-month = 6
+population  = int(input("Введіть кількість жителів цього світу:\n"))
+month = int(input("Введіть кількість місяців:\n"))
 
-world = World(int(population))
+world = World(population)
 for i in range(1, month + 1):
     world.live(i)

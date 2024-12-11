@@ -11,7 +11,7 @@ class Bank:
         person.account = new_account # прив'язуємо акаунт до вже існуючого об'єкту людини
         self.__account_list.append(new_account) # додаємо акаунт до списку акаунтів банку
 
-    # метод для перевірки всіх акаунтів РЕДАГУВАТИ
+    # метод для перевірки всіх акаунтів
     def process_accounts(self):
         for account in self.__account_list: # перебираємо кожен акаунт зі списку
             if account.is_blocked: # перевіряємо чи заблокований акаунт, якщо так, то переходимо до наступного акаунту
